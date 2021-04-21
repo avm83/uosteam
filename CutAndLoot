@@ -1,6 +1,8 @@
-//you will be prompted to select loot bag, dagger and scissors on first use
-//this probably only works on UO Excelsior!
-//also loots feather's and wool (in case you don't like shearing!)
+//  UO Excelsior-specific Cut, Loot, and Warehouse Script
+//  This script will detect nearby corpses, and automatically
+//  use dagger, loot hides/feathers/wool, cut hides, do a UOEX
+//  "[claim" and target the corpse, and then run the Warehouse
+//  sorter macro.
 if not listexists 'cutloot'
   createlist 'cutloot'
   pushlist 'cutloot' '0x1079' //leather
