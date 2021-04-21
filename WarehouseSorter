@@ -1,0 +1,164 @@
+// Warehouser
+// Required items:
+//    Tailor, Mage, Metalworker, and Woodworker keys
+//
+// Magery Keys stuff here
+if not findalias 'MageKeys'
+  headmsg 'Select Mages Keys'
+  promptalias 'MageKeys'
+endif
+if not listexists 'mage'
+  createlist 'mage'
+  pushlist 'mage' 0xf7a  //Black Pearl
+  pushlist 'mage' 0xf7b  //BloodMoss
+  pushlist 'mage' 0xf84  //Garlic
+  pushlist 'mage' 0xf85  //Ginseng
+  pushlist 'mage' 0xf86  //Mandrake Root
+  pushlist 'mage' 0xf88  //Nightshade
+  pushlist 'mage' 0xf8c  //Sulfurous Ash
+  pushlist 'mage' 0xf8d  //Spiders Silk
+  pushlist 'mage' 0xf78  //Bat Wing
+  pushlist 'mage' 0xf8f  //Grave Dust
+  pushlist 'mage' 0xf7d  //Daemon Blood
+  pushlist 'mage' 0xf8e  //Nox Crystal
+  pushlist 'mage' 0xf8a  //Pig Iron
+  //pushlist 'mage' 0x   //Spring Water
+  pushlist 'mage' 0x97a  //Petrified Wood
+  pushlist 'mage' 0xe1f  //Destroying Angel
+  pushlist 'mage' 0xf80  //Daemon Bone
+  pushlist 'mage' 0x1422 //Beeswax
+  pushlist 'mage' 0xef3  //Blank Scroll
+  pushlist 'mage' 0xf7e  //Bone
+  pushlist 'mage' 0xf0e  //Bottle
+  pushlist 'mage' 0xf8f  //Ethereal Powder
+  pushlist 'mage' 0xf81  //Fertile Dirt
+  //pushlist 'mage' 0x   //Key Ring
+  pushlist 'mage' 0x1940 //Potion Keg
+  pushlist 'mage' 0x26b8 //Trans. Powder
+  pushlist 'mage' 0x1f14 //Recall Rune
+  pushlist 'mage' 0x11ea //Sand
+  pushlist 'mage' 0x26b7 //Zoogi Fungus
+endif
+//See if we have anything to sort
+for 0 to mage
+  if @findtype mage[]
+    useobject 'MageKeys'
+    waitforgump 247257139 15000
+    for 0 to mage
+      if @findtype mage[] 'any' 'backpack'
+        if @gumpexists 'any'
+          while @findtype mage[] 'any' 'backpack'
+            clearjournal
+            replygump 0xebcd833 60030
+            waitforgump 247257139 15000
+            @target! 'found' 'any' 'backpack'
+            if @injournal 'For safety reasons' 'system'
+              waitfortarget 5000
+              @canceltarget!
+              @replygump 0xebcd833 0
+              break
+            endif
+          endwhile
+        endif
+      endif
+    endfor
+    @replygump 0xebcd833 0
+  endif
+endfor
+@canceltarget!
+// Tailor stuff here
+if not findalias 'TailorKeys'
+  headmsg 'Select Tailors Keys'
+  promptalias 'TailorKeys'
+endif
+if not listexists 'tailor'
+  createlist 'tailor'
+  pushlist 'tailor' 0x1081  //Leather
+  pushlist 'tailor' 0x26b4  //Scales
+  pushlist 'tailor' 0x1766  //Cloth
+  pushlist 'tailor' 0xdf8   //Wool
+endif
+//See if we have anything to sort
+for 0 to tailor
+  if @findtype tailor[]
+    useobject 'TailorKeys'
+    waitforgump 1106836505 15000
+    for 0 to tailor
+      if @findtype tailor[] 'any' 'backpack'
+        if @gumpexists 'any'
+          while @findtype tailor[] 'any' 'backpack'
+            clearjournal
+            replygump 0x41f8fc19 60029
+            waitforgump 1106836505 15000
+            @target! 'found' 'any' 'backpack'
+          endwhile
+        endif
+      endif
+    endfor
+  endif
+endfor
+//clean up
+@canceltarget!
+@replygump 0x41f8fc19 0
+// Metalworker stuff here
+if not findalias 'SmithKeys'
+  headmsg 'Select Metalworkers Keys'
+  promptalias 'SmithKeys'
+endif
+//See if we have anything to sort
+if @findtype 0x1bf2 'any'
+  @useobject 'SmithKeys'
+  waitforgump 4213074123 15000
+  while @findtype 0x1bf2 'any' 'backpack'
+    if @gumpexists 'any'
+      clearjournal
+      @replygump 0xfb1e68cb 60015
+      waitforgump 4213074123 15000
+      @target! 'found' 'any' 'backpack'
+    endif
+  endwhile
+endif
+//clean up
+@canceltarget!
+@replygump 0xfb1e68cb 0
+// Woodworker stuff here
+if not findalias 'WoodKeys'
+  headmsg 'Select Woodworkers Keys'
+  promptalias 'WoodKeys'
+endif
+if not listexists 'wood'
+  createlist 'wood'
+  @pushlist 'wood' '0x1bd7'  //All wood
+  @pushlist 'wood' '0xf3f'   //Arrows
+  @pushlist 'wood' '0x1bfb'  //Bolts
+  @pushlist 'wood' '0x1bd1'  //Feathers
+  @pushlist 'wood' '0x1bd4'  //Shafts
+endif
+//See if we have anything to sort
+for 0 to wood
+  if @findtype wood[]
+    useobject 'WoodKeys'
+    waitforgump 173511501 15000
+    for 0 to wood
+      if @findtype wood[] 'any' 'backpack'
+        if @gumpexists 'any'
+          while @findtype wood[] 'any' 'backpack'
+            clearjournal
+            replygump 0xa57934d 60023
+            waitforgump 173511501 15000
+            @target! 'found' 'any' 'backpack'
+          endwhile
+        endif
+      endif
+    endfor
+  endif
+endfor
+//clean up
+@canceltarget!
+@replygump 0xa57934d 0
+//Run a gem sort too
+@organizer 'gems'
+while organizing
+  pause 500
+endwhile
+sysmsg 'Done warehousing!'
