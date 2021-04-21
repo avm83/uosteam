@@ -1,0 +1,65 @@
+//you will be prompted to select loot bag, dagger and scissors on first use
+//this probably only works on UO Excelsior!
+//also loots feather's and wool (in case you don't like shearing!)
+if not listexists 'cutloot'
+  createlist 'cutloot'
+  pushlist 'cutloot' '0x1079' //leather
+  pushlist 'cutloot' '0xdf8' //wool
+  pushlist 'cutloot' '0x1bd1' //feather
+endif
+//setup aliases
+if not @findobject 'LootBag'
+  headmsg 'Select a bag to store the loot'
+  promptalias 'LootBag'
+endif
+if not @findalias 'blade'
+  headmsg 'Which blade will you use?'
+  promptalias 'blade'
+endif
+if not @findalias 'scissors'
+  headmsg 'Which scissors do you wish to use?'
+  promptalias 'scissors'
+endif
+//look for corpses
+if not @findtype '0x2006' 'any' 'ground' '1' '2'
+  sysmsg ' **** No Corpse Found - Exiting ****' '28'
+  stop
+else
+  @setalias! 'o' 'found'
+endif
+//cut corpse
+@useobject 'blade'
+waitfortarget '1000'
+@target! 'o'
+pause 500
+//find loot from loot array
+sysmsg ' **** Looking for loot ****' '20'
+for 0 to 'cutloot'
+  while @findtype! cutloot[] 'any' 'o' 'any' '2'
+    sysmsg ' **** Loot found - Moving ****' '20'
+    if @injournal 'cannot hold more'
+      sysmsg ' !!! WARNING: Your bag is full.  Exiting script !!!' '28'
+      clearjournal
+      stop
+    else
+      moveitem 'found' 'LootBag'
+      pause 1000
+    endif
+  endwhile
+endfor
+//cut hides
+while @findtype! '0x1079' 'any' 'LootBag'
+  sysmsg ' **** Hides found - Cutting ****' '20'
+  @useobject 'scissors'
+  waitfortarget '1500'
+  target! 'found'
+  pause 500
+endwhile
+//claim corpse
+msg '[claim'
+waitfortarget 500
+target! 'o'
+pause '500'
+//cancel claim target
+@canceltarget!
+playmacro 'Warehouse Sorter'
