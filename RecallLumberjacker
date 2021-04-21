@@ -1,0 +1,119 @@
+// Macro for UO Excelsior
+// Required Items:
+//    Bag of Resources
+//    Runebook(s) with trees marked - SEE NOTE
+//    Hatchet with lots of uses
+//
+//  Notes:
+//    Be sure to mark one tile SOUTH (uo south) 
+//      of trees with the "walnut" graphic:
+//      bottom row in this image: 
+//  https://pangaea.myramidnight.com/wiki/images/c/cb/Walnut.gif
+//
+@clearlist 'TreeBook'
+@clearjournal
+// Selecting your Bag of Resources
+if not findalias 'resourcebag'
+  headmsg 'Select your Bag of Resources'
+  promptalias 'resourcebag'
+endif
+if not listexists 'log'
+  @createlist 'log'
+endif
+@pushlist 'log' '0x1bdd' //logs
+//Recall setup stuff here
+// Comment out or add more "TreeBooks" here, and in the pushlist section immediately following
+if not @findobject 'TreeBookOne'
+  promptalias 'TreeBookOne'
+endif
+if not @findobject 'TreeBookTwo'
+  promptalias 'TreeBookTwo'
+endif
+if not @findobject 'TreeBookThree'
+  promptalias 'TreeBookThree'
+endif
+if not @findobject 'Home'
+  promptalias 'Home'
+endif
+if not listexists 'TreeBook'
+  createlist 'TreeBook'
+endif
+pushlist 'TreeBook' 'TreeBookOne'
+pushlist 'TreeBook' 'TreeBookTwo'
+pushlist 'TreeBook' 'TreeBookThree'
+if not listexists 'Runes'
+  createlist 'Runes'
+  pushlist 'Runes' 5
+  pushlist 'Runes' 15
+  pushlist 'Runes' 25
+  pushlist 'Runes' 35
+  pushlist 'Runes' 45
+  pushlist 'Runes' 55
+  pushlist 'Runes' 65
+  pushlist 'Runes' 75
+  pushlist 'Runes' 85
+  pushlist 'Runes' 95
+  pushlist 'Runes' 105
+  pushlist 'Runes' 115
+  pushlist 'Runes' 125
+  pushlist 'Runes' 135
+  pushlist 'Runes' 145
+  pushlist 'Runes' 155
+endif
+//Commence being "OK", which lumberjacks are want to do
+@clearjournal
+@unsetalias 'log'
+@unsetalias 'found'
+for 0 to 'TreeBook'
+  for 0 to 'Runes'
+    useobject TreeBook[]
+    waitforgump 1431013363 5000
+    replygump 0x554b87f3 Runes[]
+    pause 1500
+    turn 'North'
+    @unsetalias 'hatchet'
+    @unsetalias 'found'
+    if not @findtype 0xf43 'any' 'backpack' 1
+      headmsg 'Hatchet not found, stopping.'
+      stop
+    endif
+    @equipitem 'found' 1
+    pause 1100
+    @clearjournal
+    while not @injournal 'enough wood here' "system"
+      if weight <= '350'
+        @useobject! 'LeftHand'
+        waitfortarget 1000
+        targettileoffset  0 -1 0 0xce3
+        pause 2750
+      else
+        @canceltarget!
+        //Move logs to Bag of Resources
+        sysmsg '*****Checking bag for Logs.*****' '20'
+        if not @findtype! '0x1bdd' 'any' 'backpack' 'any' '0'
+          sysmsg '*****No Logs found.*****' '28'
+        else
+          @setalias! 'log' 'found'
+          pause 300
+          for 0 to 'log'
+            while @findtype! 'log[]' 'any' 'backpack' 'any' '0'
+              pause 300
+              if @injournal 'cannot hold more'
+                sysmsg ' !!! WARNING: Your bag is full.  Exiting script !!!' '28'
+                @clearjournal
+                stop
+              else
+                sysmsg '*****Moving logs.*****' '20'
+                @moveitem 'found' 'resourcebag'
+                pause 600
+              endif
+            endwhile
+          endfor
+        endif
+      endif
+    endwhile
+    @canceltarget!
+    pause 5000
+    headmsg 'There is no more wood here, recalling to the next tree.' 24
+  endfor
+endfor
