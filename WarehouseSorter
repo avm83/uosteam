@@ -23,7 +23,7 @@ if not listexists 'mage'
   pushlist 'mage' 0xf8e  //Nox Crystal
   pushlist 'mage' 0xf8a  //Pig Iron
   //pushlist 'mage' 0x   //Spring Water
-  pushlist 'mage' 0x97a  //Petrified Wood
+  //pushlist 'mage' 0x97a  //Petrified Wood -Graphic id is incorrect
   pushlist 'mage' 0xe1f  //Destroying Angel
   pushlist 'mage' 0xf80  //Daemon Bone
   pushlist 'mage' 0x1422 //Beeswax
